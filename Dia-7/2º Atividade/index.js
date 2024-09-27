@@ -1,76 +1,66 @@
-//DECLARANDO VÁRIAVEIS
-let nome = ""
-let cpf = 0
-let valor = 0
-let saldo = 100
-let trasancao = ""
-let operacao = true
-let saldomaior = 0
-let media = 0
-let soma = 0
-let cont = 0
+// Inicializando o saldo com um valor inicial
+let saldo = 1000;
+let maiorValor = 0;
+let totalValores = 0;
+let quantidadeValores = 0;
 
-//SOLICITANDO QUE O USUARIO INSIRAR OS DADOS
+let nome = prompt("Por favor, insira seu nome:");
+let cpf = prompt("Por favor, insira seu CPF:");
 
-    nome = prompt("Qual é o seu nome: ")
-    cpf = parseInt(prompt("Qual é seu CPF: "))
-    alert(nome+" o saldo da sua conta é: "+saldo)
-    while(operacao){
-    valor = parseInt(prompt("Por favor, digite um valor: "))
-    cont++
-    soma += valor
-    trasancao = prompt("Essa operação é saque ou depósito (S/D)").toLowerCase();
+let continuar;
 
-// EXIBINDO O MAIOR VALOR INSERIDO
+do {
+    // Perguntar o valor
+    let valor = parseFloat(prompt("Digite o valor da transação:"));
 
-    if(valor > saldomaior){
-        saldomaior = valor
-    
+    // Verificar se o valor é válido
+    if (valor <= 0) {
+        alert("Valor inválido! Insira um valor maior que zero.");
+        continue;
     }
 
-//CALCULADO A MEDIA DOS VALORES INSERIDOS
+    // Perguntar se o usuário deseja sacar ou depositar
+    let operacao = prompt("Escolha a operação: \n1 - Saque \n2 - Depósito");
 
-    media = soma / cont
-   
-/*CRIANDO REGRAS DE SAQUE, COMO NÃO SACAR VALOR NEGATIVO E NÃO SACAR VALORES INDISPONÍVEL
-VERIFICANDO QUE TIPO DE TRANSAÇÃO É E REALIZANDO OPERAÇÃO MATEMATICA
-INFORMANDO UM ALERTA COM O NOME DO CLIENTE E A INFORMAÇÃO DO SALDO
-INFORMANDO A INFORMAÇÃO COM O MAIOR VALOR INSERIDO.
-INFORMANDO QUAL É A MEDIA DOS VALORES INSERIDOS */
-
-if(valor > saldo){
-    alert("Não é possível sacar esse valor R$"+valor+", você não possui saldo o suficente")
-    trasancao = false
-
-    }
-
-    if(valor <= saldo && valor <= 0){
-        switch(trasancao){
-            case "s":
-                saldo = saldo - valor
-                break;
-        
-            case "d":
-                saldo = saldo + valor
-                break;
+    if (operacao == '1') { // Saque
+        if (valor > saldo) {
+            alert("Saldo insuficiente para saque!\n \nAtenção: Seu Saldo Atual é: R$"+saldo)
+            
+        } else {
+            saldo -= valor;
+            alert("Saque R$ " + valor +", realizado com sucesso!");
         }
-        alert("Olá "+nome+ " o seu saldo total é: "+saldo)
-        alert("O maior valor inserido foi: "+saldomaior)
-        alert("A media dos valores inseridos são: "+media)
+    } else if (operacao == '2') { // Depósito
+        saldo += valor;
+        alert("Depósito R$ " + valor +", realizado com sucesso!");
+    } else {
+        alert("Operação inválida. Escolha \n1 - Saque \n2 - Depósito");
+        continue;
     }
-   
-//VERIFICANDO SE O USUARIO QUER CONTINUAR A OPERAÇÃO
 
-    trasancao = parseInt(prompt("Você desej continuar? \n 1: Continuar \n 2: Sair"))
-    
-//FINALIZANDO O LAÇO DE REPETIÇÃO
+    // Atualizar a maior transação
+    if (valor > maiorValor) {
+        maiorValor = valor;
+    }
 
-    if(trasancao == 2){
-        operacao = false
-    }else{
-        operacao = true
-     }
-        
+    // Atualizar o total e quantidade de transações
+    totalValores += valor;
+    quantidadeValores++;
 
-}
+    // Mostrar o saldo atual, maior valor e média dos valores
+    let mediaValores = totalValores / quantidadeValores;
+    alert(`
+        Nome: ${nome}
+        CPF: ${cpf}
+        Saldo atual: R$${saldo.toFixed(2)}
+        Maior valor inserido: R$${maiorValor.toFixed(2)}
+        Média dos valores inseridos: R$${mediaValores.toFixed(2)}
+    `);
+
+    // Perguntar se o usuário deseja continuar
+    continuar = prompt("Deseja continuar? \n1 - Sim \n2 - Não");
+
+} while (continuar == '1'); // O loop continua enquanto o usuário escolher "1"
+
+alert("Obrigado pela Preferência!");
 
